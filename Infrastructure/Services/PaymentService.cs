@@ -19,7 +19,13 @@ public class PaymentService : IPaymentService
     {
         using var connection = context.GetDbConnection();
         var sql = @"insert into payments (bookingId,amount,paymentDate,paymentMethod) values (@bookingId,@amount,@paymentDate,@paymentMethod)";
-        var result = connection.Execute(sql, payments);
+        var result = connection.Execute(sql, new
+        {
+            payments.BookingId,
+            payments.Amount,
+            payments.PaymentDate,
+            payments.PaymentMethod
+        });
     }
     public void UpdatePayment(Payments payments)
     {

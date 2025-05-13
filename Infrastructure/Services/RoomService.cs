@@ -19,7 +19,13 @@ public class RoomService : IRoomService
     {
         using var connection = context.GetDbConnection();
         var sql = @"insert into rooms (hotelId,roomNumber,capacity,pricePerNight) values (@hotelId,@roomNumber,@capacity,@pricePerNight)";  
-        var result = connection.Execute(sql, rooms);
+        var result = connection.Execute(sql, new
+        {
+            rooms.HotelId,
+            rooms.RoomNumber,
+            rooms.Capacity,
+            rooms.PricePerNight
+        });
     }
     public void UpdateRoom(Rooms rooms)
     {

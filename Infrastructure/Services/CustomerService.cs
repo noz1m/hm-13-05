@@ -18,7 +18,11 @@ public class CustomerService : ICustomerService
     {
         using var connection = context.GetDbConnection();
         var sql = @"insert into customers (fullName, email) values (@Name, @email)";
-        var result = connection.Execute(sql, customers);
+        var result = connection.Execute(sql, new
+        {
+            customers.FullName,
+            customers.Email
+        });
     }
     public void UpdateCustomer(Customers customers)
     {

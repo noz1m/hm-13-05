@@ -7,7 +7,7 @@ namespace Infrastructure.Services;
 public class HotelService : IHotelService
 {
     private readonly DataContext context = new DataContext();
-    
+
     public List<Hotels> GetAllHotels()
     {
         using var connection = context.GetDbConnection();
@@ -19,7 +19,11 @@ public class HotelService : IHotelService
     {
         using var connection = context.GetDbConnection();
         var sql = @"insert into hotels (name, city) values (@name, @city)";
-        var result = connection.Execute(sql, hotels);
+        var result = connection.Execute(sql, new
+        {
+            hotels.Name,
+            hotels.City
+        });
     }
     public void UpdateHotel(Hotels hotels)
     {

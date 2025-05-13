@@ -20,7 +20,13 @@ public class BookingService : IBookingService
     {
         using var connection = context.GetDbConnection();
         var sql = @"insert into bookings (checkIn, checkOut, roomId, customerId) values (@checkIn, @checkOut, @roomId, @customerId)";
-        var result = connection.Execute(sql, bookings);
+        var result = connection.Execute(sql, new
+        {
+            bookings.CheckIn,
+            bookings.CheckOut,
+            bookings.RoomId,
+            bookings.CustomerId
+        });
     }
     public void UpdateBooking(Bookings bookings)
     {
